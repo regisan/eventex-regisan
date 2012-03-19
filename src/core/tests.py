@@ -8,9 +8,11 @@ Replace this with more appropriate tests for your application.
 from django.test import TestCase
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
+class HomepageUrlTest(TestCase):
+    def test_success_when_get_homepage(self):
         """
-        Tests that 1 + 1 always equals 2.
+        Tests the index homepage.
         """
-        self.assertEqual(1 + 1, 2)
+        response = self.client.get('/')
+        self.assertEquals(200, response.status_code)
+        self.assertTemplateUsed(response, 'index.html')

@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>EventeX</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
+</head>
+<body>
+<div align="center">
+  <img src="{{ STATIC_URL}}img/logo.png" />
+</div>
+
+<!-- Conteudo dinamico -->
+<div id="content" align="center">
+  {% block content %}
+  {% endblock content %}
+</div>
+<p>&nbsp;</p>
+
+<div class="footer" align="right">
+&copy; 2012 by Regis Santos. <img src="{{ STATIC_URL}}img/somerights20.png" />
+</div>
+
+</body>
+</html>

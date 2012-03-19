@@ -1,26 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
-<head>
-<title>EventeX</title>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
-</head>
-<body>
-<div align="center">
-  <img src="{{ STATIC_URL}}img/logo.png" />
-</div>
-
-<div class="content" align="center">
+{% extends 'base.html' %}
+{% block content %}
 <h1 class="title">Bem-vindo ao EventeX!</h1>
 <p>O evento mais sensacional do ano depois do Dev in Rio!</p>
 <p>Voc&ecirc; n&atilde;o pode perder esta oportunidade!</p>
-<h4>Abertura das inscri&ccedil;&otilde;es em 18/03/2012.</h4>
+<p><a href="{% url subscriptions:subscribe %}">Inscreva-se ja!</a></p>
 <p>Para d&uacute;vidas e mais informa&ccedil;&otilde;es entre em contato com <a href="mailto:eventex@eventex.com.br">eventex@eventex.com.br</a></p>
-</div>
-<p>&nbsp;</p>
-
-<div class="footer" align="right">
-&copy; 2012 by Regis Santos. <img src="{{ STATIC_URL}}img/somerights20.png" />
-</div>
-
-</body>
-</html>
+{% endblock content %}

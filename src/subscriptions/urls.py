@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls.defaults import patterns, url
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -7,7 +7,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.conf.urls.defaults import patterns
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-urlpatterns = patterns('django.views.generic.simple',
+urlpatterns = patterns('subscriptions.views',
     # Examples:
     # url(r'^$', 'src.views.home', name='home'),
     # url(r'^src/', include('src.foo.urls')),
@@ -17,9 +17,8 @@ urlpatterns = patterns('django.views.generic.simple',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    #(r'^$', 'core.views.homepage', {'template': 'index.html'}),
-    (r'^$', 'direct_to_template', {'template': 'index.html'}),
-    (r'^inscricao/', include('subscriptions.urls', namespace='subscriptions')),
+    url(r'^$', 'subscribe', name='subscribe'),
+    url(r'^(\d+)/sucesso/$', 'success', name='success'),
 )
 
-urlpatterns += staticfiles_urlpatterns()
+#urlpatterns += staticfiles_urlpatterns()
