@@ -1,5 +1,7 @@
 # Django settings for src project.
 import os
+import sys
+import urlparse
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -22,6 +24,40 @@ DATABASES = {
         'PORT': '',                                        # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+# Register database schemes in URLs.
+urlparse.uses_netloc.append('postgres')
+urlparse.uses_netloc.append('sqlite3')
+
+try:
+    # Check to make sure DATABASES is set in settings.py file.
+    # If not default to {}
+    
+    if 'DATABASES' not in locals():
+        DATABASES = {}
+    
+    if 'DATABASE_URL' in os.environ:
+        url = urlparse.urlparse(os.environ['DATABASE_URL'])
+        
+        # Ensure default database exists.
+        DATABASES['default'] = DATABASES.get('default', {})
+        
+        # Update with environment configuration
+        DATABASES['default'].update({
+            'NAME': url.path[1:],
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+            'PORT': url.port,
+        })
+        
+        if url.scheme == 'postgres':
+            DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+        
+        if url.scheme == 'sqlite3':
+            DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+except Exception:
+    print 'Unexpected error:', sys.exc_info()
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -150,3 +186,15 @@ LOGGING = {
         },
     }
 }
+
+DEFAULT_FROM_EMAIL = 'contato@eventex.com.br'
+
+if 'True' == os.environ.get('SEND_EMAIL', 'False'):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
