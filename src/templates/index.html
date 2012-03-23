@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+<div id="principal" align="center">
 <h1 class="title">Bem-vindo ao EventeX!</h1>
 <p>O evento mais sensacional do ano depois do Dev in Rio!</p>
 <p>Voc&ecirc; n&atilde;o pode perder esta oportunidade!</p>
-<p><a href="{% url subscriptions:subscribe %}">Inscreva-se ja!</a></p>
+<p><a href="{% url subscriptions:subscribe %}">Inscreva-se j&aacute;!</a></p>
 <p>Para d&uacute;vidas e mais informa&ccedil;&otilde;es entre em contato com <a href="mailto:eventex@eventex.com.br">eventex@eventex.com.br</a></p>
+</div>
 {% endblock content %}

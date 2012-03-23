@@ -7,7 +7,7 @@
       color: #FF6600 
   }
   
-  #content {
+  #principal {
       width: 85%;
       padding-left: 2em;
       padding-right: 2em;
@@ -22,6 +22,21 @@
       -moz-border-radius:10px; /* Firefox 3.6 and earlier */
       
       font-size: 1.5em;
+  }
+  
+  .formulario {
+      width: 85%;
+      padding-left: 2em;
+      padding-right: 2em;
+      position:relative;
+      left: 50px;
+      top: 10px;
+      margin-left: 0px;
+      margin-top: 0px;
+      box-shadow: 5px 5px 2px #c0c0c0;
+      border:1px solid;
+      border-radius:10px;
+      -moz-border-radius:10px; /* Firefox 3.6 and earlier */
   }
   
   .footer {
