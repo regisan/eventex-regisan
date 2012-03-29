@@ -54,7 +54,14 @@ class SubscriptionForm(forms.Form):
         s = Subscription()
         s.name = self.cleaned_data['name']
         s.cpf = self.cleaned_data['cpf']
-        s.email = self.cleaned_data['email']
+
+        s.email = self.cleaned_data['email'] or None
+        # A linha acima significa:
+        # if self.cleaned_data['email']:
+        #     s.email = self.cleaned_data['email']
+        # else:
+        #     s.email = None
+
         s.phone = self.cleaned_data['phone']
         s.save()
         return s
