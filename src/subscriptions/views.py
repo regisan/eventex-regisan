@@ -17,11 +17,20 @@ def subscribe(request):
         return new(request)
 
 def new(request):
-    form = SubscriptionForm()
+    # Instanciacao do form com valores padroes para serem exibidos ao usuario.
+    form = SubscriptionForm(initial={
+        'name': 'Entre o seu nome',
+        'cpf': 'Digite o seu CPF sem pontos',
+        'email': 'Informe o seu email',
+        'phone': 'Qual seu telefone de contato?',
+    })
     context = RequestContext(request, {'form': form})
     return render_to_response('subscriptions/new.html', context)
     
 def create(request):
+    '''
+    View para gravar uma nova inscricao.
+    '''
     form = SubscriptionForm(request.POST)
     
     if not form.is_valid():
@@ -29,15 +38,22 @@ def create(request):
         return render_to_response('subscriptions/new.html', context)
     
     subscription = form.save()
-    send_confirmation(subscription.email)
+    if not subscription.email == '':
+        send_confirmation(subscription.email)
     return HttpResponseRedirect(reverse('subscriptions:success', args=[subscription.pk]))
     
 def success(request, pk):
+    '''
+    View para confirmar a inscricao.
+    '''
     subscription = get_object_or_404(Subscription, pk=pk)
     context = RequestContext(request, {'subscription': subscription})
     return render_to_response('subscriptions/success.html', context)
 
 def send_confirmation(email):
+    '''
+    Metodo para enviar confirmacao da inscricao por email
+    '''
     send_mail(
         subject = u'Inscricao no EventeX',
         message = u'Obrigado por se inscrever no EventeX!',
