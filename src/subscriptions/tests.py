@@ -75,4 +75,9 @@ class SubscriptionFormTest(TestCase):
         self.assertRedirects(response1, '/inscricao/1/sucesso/')
         response2 = self.client.post('/inscricao/', {'name': 'teste2', 'cpf': '22222222222', 'phone': '11-5555-2222'})
         self.assertRedirects(response2, '/inscricao/2/sucesso/')
-        #self.assertFormError(response2, 'form', 'email', _(u'E-mail já inscrito.'))
+        
+    def test_blank_phone_but_not_email(self):
+        response1 = self.client.post('/inscricao/', {'name': 'teste1', 'cpf': '11111111111', 'email': 'teste@teste.com.br'})
+        self.assertRedirects(response1, '/inscricao/1/sucesso/')
+        response2 = self.client.post('/inscricao/', {'name': 'teste2', 'cpf': '22222222222', 'email': 'teste2@teste.com.br'})
+        self.assertRedirects(response2, '/inscricao/2/sucesso/')

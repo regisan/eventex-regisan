@@ -38,7 +38,7 @@ def create(request):
         return render_to_response('subscriptions/new.html', context)
     
     subscription = form.save()
-    if not subscription.email == '':
+    if subscription.email:
         send_confirmation(subscription.email)
     return HttpResponseRedirect(reverse('subscriptions:success', args=[subscription.pk]))
     
