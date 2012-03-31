@@ -6,8 +6,8 @@ from django.db import models
 class Subscription(models.Model):
     name = models.CharField('Nome', max_length=100)
     cpf = models.CharField('CPF', max_length=11, unique=True)
-    email = models.EmailField('E-mail', unique=True, blank=False, null=True, default=None)
-    phone = models.CharField('Telefone', max_length=20, blank=True)
+    email = models.EmailField('E-mail', unique=True, blank=False, null=True)
+    phone = models.CharField('Telefone', max_length=20, blank=False, null=True)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     paid = models.BooleanField()
     

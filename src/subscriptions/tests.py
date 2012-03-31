@@ -27,11 +27,11 @@ class SubscriptionFormTest(TestCase):
         self.assertFormError(response, 'form', None, _(u'Você precisa informar seu e-mail ou seu telefone.'))
     
     def test_add_complete_form(self):
-        response = self.client.post('/inscricao/', {'name': 'teste', 'cpf': '11111111111', 'email': 'teste@mail.com', 'phone': '11-5555-2222'})
+        response = self.client.post('/inscricao/', {'name': 'teste', 'cpf': '11111111111', 'email': 'teste@mail.com', 'phone_0': '11', 'phone_1': '55552222'})
         self.assertRedirects(response, '/inscricao/1/sucesso/')
         
     def test_add_no_email_form(self):
-        response = self.client.post('/inscricao/', {'name': 'teste', 'cpf': '11111111111', 'phone': '11-5555-2222'})
+        response = self.client.post('/inscricao/', {'name': 'teste', 'cpf': '11111111111', 'phone_0': '11', 'phone_1': '55552222'})
         self.assertRedirects(response, '/inscricao/1/sucesso/')
         
     def test_add_no_phone_form(self):
@@ -54,8 +54,8 @@ class SubscriptionFormTest(TestCase):
         response = self.client.post('/inscricao/', {'email': 'teste.mail.com'})
         self.assertFormError(response, 'form', 'email', 'Enter a valid e-mail address.')
         
-    def test_invalid_phone(self):
-        response = self.client.post('/inscricao/', {'phone': '11-5555-1234/5555-5678'})
+    def test_phone_higher_than_twenty_digits(self):
+        response = self.client.post('/inscricao/', {'phone_0': '11', 'phone_1': '5555567848949844949'})
         self.assertFormError(response, 'form', 'phone', 'Ensure this value has at most 20 characters (it has 22).')
         
     def test_duplicated_cpf(self):
@@ -71,9 +71,9 @@ class SubscriptionFormTest(TestCase):
         self.assertFormError(response2, 'form', 'email', _(u'E-mail já inscrito.'))
         
     def test_blank_email_but_not_phone(self):
-        response1 = self.client.post('/inscricao/', {'name': 'teste1', 'cpf': '11111111111', 'phone': '11-5555-2222'})
+        response1 = self.client.post('/inscricao/', {'name': 'teste1', 'cpf': '11111111111', 'phone_0': '11', 'phone_1': '55552222'})
         self.assertRedirects(response1, '/inscricao/1/sucesso/')
-        response2 = self.client.post('/inscricao/', {'name': 'teste2', 'cpf': '22222222222', 'phone': '11-5555-2222'})
+        response2 = self.client.post('/inscricao/', {'name': 'teste2', 'cpf': '22222222222', 'phone_0': '11', 'phone_1': '55552222'})
         self.assertRedirects(response2, '/inscricao/2/sucesso/')
         
     def test_blank_phone_but_not_email(self):
@@ -81,3 +81,11 @@ class SubscriptionFormTest(TestCase):
         self.assertRedirects(response1, '/inscricao/1/sucesso/')
         response2 = self.client.post('/inscricao/', {'name': 'teste2', 'cpf': '22222222222', 'email': 'teste2@teste.com.br'})
         self.assertRedirects(response2, '/inscricao/2/sucesso/')
+
+    def test_invalid_phone_number(self):
+        response = self.client.post('/inscricao/', {'phone_0': '11', 'phone_1': ''})
+        self.assertFormError(response, 'form', 'phone', u'Número inválido.')
+        
+    def test_invalid_ddd_number(self):
+        response = self.client.post('/inscricao/', {'phone_0': '', 'phone_1': '55552222'})
+        self.assertFormError(response, 'form', 'phone', u'DDD inválido.')

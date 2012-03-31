@@ -22,7 +22,7 @@ def new(request):
         'name': 'Entre o seu nome',
         'cpf': 'Digite o seu CPF sem pontos',
         'email': 'Informe o seu email',
-        'phone': 'Qual seu telefone de contato?',
+        'phone': 'DDD'
     })
     context = RequestContext(request, {'form': form})
     return render_to_response('subscriptions/new.html', context)
@@ -37,7 +37,18 @@ def create(request):
         context = RequestContext(request, {'form': form})
         return render_to_response('subscriptions/new.html', context)
     
-    subscription = form.save()
+    # nao salva o objeto imediatamente para verificar se o email esta com string vazia
+    subscription = form.save(commit=False)
+    subscription.email = form.cleaned_data['email'] or None
+    # A linha acima significa:
+        # if form.cleaned_data['email']:
+        #     subscription.email = form.cleaned_data['email']
+        # else:
+        #     subscription.email = None
+    # salva definitivamente o objeto no banco
+    subscription.save()
+    
+    # caso nao tenha email, nao envia mensagem
     if subscription.email:
         send_confirmation(subscription.email)
     return HttpResponseRedirect(reverse('subscriptions:success', args=[subscription.pk]))
