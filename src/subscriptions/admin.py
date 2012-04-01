@@ -56,7 +56,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
         subscriptions = self.model.objects.all()
         
         # list comprehension para contenar nome com email, separados por (,)
-        rows = [','.join([s.name, s.email]) for s in subscriptions]
+        rows = [','.join([s.name, (s.email or s.phone)]) for s in subscriptions] 
         
         # prepara o response com mimetype
         response = HttpResponse('\r\n'.join(rows))
