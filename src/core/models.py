@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Speaker(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     url = models.URLField(verify_exists=False)
     description = models.TextField(blank=True)
     avatar = models.FileField(upload_to='palestrantes', blank=True, null=True)
@@ -33,7 +33,7 @@ class Contact(models.Model):
     def __unicode__(self):
         return '%s, %s' % (self.kind, self.value)
     
-    speaker = models.ForeignKey('Speaker', verbose_name=_('Palestrantes'))
+    speaker = models.ForeignKey('Speaker', verbose_name=_('Palestrante'))
     kind = models.CharField(max_length=1, choices=KINDS)
     value = models.CharField(max_length=255)
     

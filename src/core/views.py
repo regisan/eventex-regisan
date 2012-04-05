@@ -1,8 +1,9 @@
 # Create your views here.
-#from django.http import HttpResponse
-#from django.template import loader, Context
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 
-def homepage(request, template=None):
-    return render_to_response(template, RequestContext(request))
+from django.views.generic.simple import direct_to_template
+from django.shortcuts import get_object_or_404
+from core.models import Speaker
+
+def speaker_detail(request, slug):
+    speaker = get_object_or_404(Speaker, slug=slug)
+    return direct_to_template(request, 'core/speaker_detail.html', {'speaker': speaker})
