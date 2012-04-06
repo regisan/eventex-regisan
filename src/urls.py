@@ -19,7 +19,7 @@ urlpatterns = patterns('django.views.generic.simple',
     url(r'^admin/', include(admin.site.urls)),
     (r'^$', 'direct_to_template', {'template': 'index.html'}),
     (r'^inscricao/', include('subscriptions.urls', namespace='subscriptions')),
-    (r'^palestrante/', include('core.urls', namespace='core')),
+    (r'^', include('core.urls', namespace='core')),
 )
 
 urlpatterns += staticfiles_urlpatterns()

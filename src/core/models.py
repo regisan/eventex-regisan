@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -41,3 +42,52 @@ class Contact(models.Model):
     phones = KindContactManager('P')
     emails = KindContactManager('E')
     faxes = KindContactManager('F')
+
+class PeriodManager(models.Manager):
+    midday = datetime.time(12)
+    
+    def at_morning(self):
+        qs = self.filter(start_time__lt=self.midday)
+        qs = qs.order_by('start_time')
+        return qs
+        
+    def at_afternoon(self):
+        qs = self.filter(start_time__gte=self.midday)
+        qs = qs.order_by('start_time')
+        return qs
+        
+#class Session(models.Model):
+#    title = models.CharField(max_length=200)
+#    description = models.TextField()
+#    start_time = models.TimeField(blank=True)
+#    
+#    objects = PeriodManager()
+#    
+#    class Meta:
+#        abstract = True
+#        
+#    def __unicode__(self):
+#        return unicode(self.title)
+
+
+class Talk(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    start_time = models.TimeField(blank=True)
+    speakers = models.ManyToManyField('Speaker', verbose_name=_('palestrante'))
+    
+    objects = PeriodManager()
+    
+    class Meta:
+        verbose_name = _('Palestra')
+    
+    def __unicode__(self):
+        return unicode(self.title)
+        
+    
+class Course(Talk):
+    slots = models.IntegerField()
+    notes = models.TextField()
+    
+    objects = PeriodManager()
+    

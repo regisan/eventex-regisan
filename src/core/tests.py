@@ -6,7 +6,7 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from models import Speaker, Contact
+from models import Speaker, Contact, Talk, Course
 
 
 class HomepageUrlTest(TestCase):
@@ -34,3 +34,37 @@ class SpeakerTest(TestCase):
                                 ['<Contact: E, bobmarley@reggae.jm>',
                                 '<Contact: F, 11-5555-9999>',
                                 '<Contact: P, 11-5555-8888>'])
+                                
+    def test_add_talk_to_speaker(self):
+        s = Speaker(name = 'Jimi Hendrix',
+                    slug = 'jimi-hendrix',
+                    url = 'http://jimi.hendrix.com')
+        s.save()
+        t = Talk(title = 'First Talk',
+                 start_time = '15:00')
+        t.save()
+        
+        s.talk_set.add(t)
+        self.assertQuerysetEqual(s.talk_set.all(), 
+                                ['<Talk: First Talk>'])
+        self.assertQuerysetEqual(t.speakers.all(), 
+                                ['<Speaker: Jimi Hendrix>'])
+        
+class TalkTest(TestCase):
+    def test_create_talk(self):
+        t = Talk(title = 'First Talk',
+                 start_time = '15:00')
+        t.save()
+        self.assertQuerysetEqual(Talk.objects.all(), 
+                                ['<Talk: First Talk>'])
+  
+
+class CourseTest(TestCase):
+    def test_create_course(self):
+        c = Course(title = 'Some Course',
+                   start_time='09:00',
+                   slots=20)
+        c.save()
+        self.assertQuerysetEqual(Course.objects.all(),
+                                ['<Course: Some Course>'])
+        
