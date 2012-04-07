@@ -13,3 +13,12 @@ def talks(request):
         'morning_talks': Talk.objects.at_morning(),
         'afternoon_talks': Talk.objects.at_afternoon(),
     })
+
+def talk_detail(request, talk_id):
+    talk = get_object_or_404(Talk, id=talk_id)
+    return direct_to_template(request, 'core/talk_detail.html', {
+        'talk': talk,
+        'slides': talk.media_set.filter(type='SL'),
+        'videos': talk.media_set.filter(type='YT'),
+    })
+    

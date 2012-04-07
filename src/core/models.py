@@ -56,20 +56,6 @@ class PeriodManager(models.Manager):
         qs = qs.order_by('start_time')
         return qs
         
-#class Session(models.Model):
-#    title = models.CharField(max_length=200)
-#    description = models.TextField()
-#    start_time = models.TimeField(blank=True)
-#    
-#    objects = PeriodManager()
-#    
-#    class Meta:
-#        abstract = True
-#        
-#    def __unicode__(self):
-#        return unicode(self.title)
-
-
 class Talk(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -91,3 +77,17 @@ class Course(Talk):
     
     objects = PeriodManager()
     
+class Media(models.Model):
+    MEDIAS = (
+        ('SL', 'Slideshare'),
+        ('YT', 'Youtube'),
+    )
+    
+    talk = models.ForeignKey('Talk')
+    type = models.CharField(max_length=3, choices=MEDIAS)
+    title = models.CharField(u'Titulo', max_length=255)
+    media_id = models.CharField(max_length=255)
+    
+    def __unicode__(self):
+        return u'%s - %s' % (self.talk.title, self.title)
+        

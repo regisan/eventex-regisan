@@ -165,6 +165,7 @@ INSTALLED_APPS = (
     # My own apps
     'core',
     'subscriptions',
+    'embed',
 )
 
 # A sample logging configuration. The only tangible logging
