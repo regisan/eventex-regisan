@@ -6,6 +6,7 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 from models import Speaker, Contact, Talk, Course
 
 
@@ -14,7 +15,7 @@ class HomepageUrlTest(TestCase):
         """
         Tests the index homepage.
         """
-        response = self.client.get('/')
+        response = self.client.get(reverse('core:homepage'))
         self.assertEquals(200, response.status_code)
         self.assertTemplateUsed(response, 'index.html')
 

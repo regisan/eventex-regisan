@@ -7,7 +7,7 @@ admin.autodiscover()
 from django.conf.urls.defaults import patterns
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-urlpatterns = patterns('django.views.generic.simple',
+urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'src.views.home', name='home'),
     # url(r'^src/', include('src.foo.urls')),
@@ -17,7 +17,6 @@ urlpatterns = patterns('django.views.generic.simple',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    (r'^$', 'direct_to_template', {'template': 'index.html'}),
     (r'^inscricao/', include('subscriptions.urls', namespace='subscriptions')),
     (r'^', include('core.urls', namespace='core')),
 )

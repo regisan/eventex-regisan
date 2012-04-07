@@ -8,6 +8,7 @@ def do_slideshare(parser, token):
         tag_name, id_, doc = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError, '%r tag requires 2 arguments' % token.contents.split()[0]
+    return SlideShareNode(id_, doc)
 
 class SlideShareNode(Node):
     def __init__(self, id_, doc):

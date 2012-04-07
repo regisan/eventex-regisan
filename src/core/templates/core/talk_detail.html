@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load slideshare %}
 {% load youtube %}
 
 {% block content %}
@@ -9,6 +10,10 @@
             title="{{ speaker.description|truncatewords:20 }}">{{ speaker.name }}</a></h5>
       {% endfor %}
       <p>{{ talk.description }}</p>
+      
+      {% for slide in slides %}
+        <p>{% slideshare slide.media_id slide.title %}</p>
+      {% endfor %}
       
       {% for video in videos %}
         <p>{% youtube video.media_id %}</p>
