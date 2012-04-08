@@ -8,9 +8,20 @@ from core.models import Speaker, Talk
 class HomepageView(TemplateView):
     template_name = 'index.html'
 
-#class TalkDetailView(DetailView):
-#    model = Talk
+class TalkListView(TemplateView):
+    template_name = 'core/talks.html'
     
+    def get_context_data(self, **kwargs):
+        context = super(TalkListView, self).get_context_data(**kwargs)
+        context.update({
+            'morning_talks': Talk.objects.at_morning(),
+            'afternoon_talks': Talk.objects.at_afternoon()
+        })
+        return context
+
+class TalkDetailView(DetailView):
+    model = Talk
+
 def talk_detail(request, talk_id):
     talk = get_object_or_404(Talk, id=talk_id)
     return direct_to_template(request, 'core/talk_detail.html', {
@@ -18,7 +29,6 @@ def talk_detail(request, talk_id):
         'videos': talk.media_set.filter(type='YT'),
         'slides': talk.media_set.filter(type='SL'),
     })
-
     
 def speaker_detail(request, slug):
     speaker = get_object_or_404(Speaker, slug=slug)
