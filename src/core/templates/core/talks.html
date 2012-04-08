@@ -2,18 +2,19 @@
 
 {% block content %}
   <div id="principal">
-  <h3>Manha</h3>
+  <h3>Manh&atilde;</h3>
   {% for talk in morning_talks %}
     {% include 'core/talk_snipped.html' %}
   {% empty %}
-      <p>Nao existem palestras durante a manha.</p>
+      <p>N&atilde;o existem palestras durante a manh&atilde;.</p>
   {% endfor %}
   <hr/>
   <h3>Tarde</h3>
   {% for talk in afternoon_talks %}
     {% include 'core/talk_snipped.html' %}
   {% empty %}
-      <p>Nao existem palestras durante a tarde.</p>
+      <p>N&atilde;o existem palestras durante a tarde.</p>
   {% endfor %}
+  <p><a href="{% url core:homepage %}">voltar</a></p>
   </div>
 {% endblock content %}
